@@ -77,16 +77,15 @@ document.addEventListener('DOMContentLoaded', function() {
           'sunny': '#f2c431',
           'rainy': '#1a6ca7'
         };
-        document.getElementsByClassName('sun-shower')[0].style.display = 'inline-block';
+        document.getElementsByClassName(checkWeather(json))[0].style.display = 'inline-block';
         var date = new Date();
         // if(json.main.temp_min !== json.main.temp_max) document.getElementById('temp').children[0].textContent = json.main.temp_min;
-        document.getElementById('temp').children[1].textContent = 29;
-        document.getElementById('weatherDescription').textContent = 'FEW CLOUDS';
+        document.getElementById('temp').children[1].textContent = json.main.temp;
+        document.getElementById('weatherDescription').textContent = json.weather[0].description;
         document.getElementById('today').textContent = date.today();
-        document.getElementsByTagName('body')[0].style.color = bgColorCode[date.getHours() > 18 ? 'night' : 'sun-shower'];
+        document.getElementsByTagName('body')[0].style.color = bgColorCode[date.getHours() > 18 ? 'night' : checkWeather(json)];
       }else {
         // We reached our target server, but it returned an error
-
       }
     };
     request.onerror = function() {
