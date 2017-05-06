@@ -61,12 +61,13 @@ document.addEventListener('DOMContentLoaded', function() {
   };
   ////////////////////////////////end function declaring
 
-  (function gettingJSON() {
+  (function gettingJSON() {//geryle.me is a non-SSL certificated domain, so it can't get geolocation
+                           //let's use a fake JSON
+                           //the gettingJSON() function commented bellow is the right function, it's used for SSL certificated domain
     var request = new XMLHttpRequest();
     request.open('GET', 'http://www.garyle.me/weatherApp/testAPI.json', true);
     request.onload = function() {
-      if(request.status >= 200 && request.status < 400) {
-        // Success!
+      if(request.status >= 200 && request.status < 400) {// Success!
         var json = JSON.parse(request.responseText);
         var bgColorCode = {
           'night': '#161616',
@@ -80,12 +81,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementsByClassName(checkWeather(json))[0].style.display = 'inline-block';
         var date = new Date();
         // if(json.main.temp_min !== json.main.temp_max) document.getElementById('temp').children[0].textContent = json.main.temp_min;
-        document.getElementById('temp').children[1].textContent = json.main.temp;
+        document.getElementById('temp').children[1].textContent = Math.round(json.main.temp);
         document.getElementById('weatherDescription').textContent = json.weather[0].description;
         document.getElementById('today').textContent = date.today();
         document.getElementsByTagName('body')[0].style.color = bgColorCode[date.getHours() > 18 ? 'night' : checkWeather(json)];
-      }else {
-        // We reached our target server, but it returned an error
+      }else {// We reached our target server, but it returned an error
       }
     };
     request.onerror = function() {
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //         document.getElementsByClassName(checkWeather(json))[0].style.display = 'inline-block';
     //         var date = new Date();
     //         // if(json.main.temp_min !== json.main.temp_max) document.getElementById('temp').children[0].textContent = json.main.temp_min;
-    //         document.getElementById('temp').children[1].textContent = json.main.temp;
+    //         document.getElementById('temp').children[1].textContent = Math.round(json.main.temp);
     //         document.getElementById('weatherDescription').textContent = json.weather[0].description;
     //         document.getElementById('today').textContent = date.today();
     //         document.getElementsByTagName('body')[0].style.color = bgColorCode[date.getHours() > 18 ? 'night' : checkWeather(json)];
