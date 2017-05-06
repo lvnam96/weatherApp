@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
         var userGPSURL = 'https:\/\/crossorigin.me\/http:\/\/api.openweathermap.org\/data\/2.5\/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&units=metric&appid=b50110aef08e2abcca1b47a1932b9e13';
-        var userGPSURL_nonSSL = './testAPI.json';
+        var userGPSURL_nonSSL = 'http://www.garyle.me/weatherApp/testAPI.json';
         var request = new XMLHttpRequest();
         request.open('GET', userGPSURL_nonSSL, true);
         request.onload = function() {
