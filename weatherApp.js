@@ -64,26 +64,38 @@ document.addEventListener('DOMContentLoaded', function() {
   (function gettingJSON() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
-        var userGPSURL = 'https:\/\/api.openweathermap.org\/data\/2.5\/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&units=metric&appid=b50110aef08e2abcca1b47a1932b9e13';
-        // var userGPSURL = 'http:\/\/api.openweathermap.org\/data\/2.5\/weather?lat=10&lon=30&units=metric&appid=b50110aef08e2abcca1b47a1932b9e13';
-        $.getJSON(userGPSURL, function(json) {
-          var bgColorCode = {
-            'night': '#161616',
-            'sun-shower': '#1a6ca7',
-            'cloudy': '#2b99d8',
-            'thunder-storm': '#212c36',
-            'flurries': '#1d7ec2',
-            'sunny': '#f2c431',
-            'rainy': '#1a6ca7'
-          };
-          document.getElementsByClassName(checkWeather(json))[0].style.display = 'inline-block';
-          var date = new Date();
-          // if(json.main.temp_min !== json.main.temp_max) document.getElementById('temp').children[0].textContent = json.main.temp_min;
-          document.getElementById('temp').children[1].textContent = json.main.temp;
-          document.getElementById('weatherDescription').textContent = json.weather[0].description;
-          document.getElementById('today').textContent = date.today();
-          document.getElementsByTagName('body')[0].style.color = bgColorCode[date.getHours() > 18 ? 'night' : checkWeather(json)];
-        });
+        var userGPSURL = 'https:\/\/crossorigin.me\/http:\/\/api.openweathermap.org\/data\/2.5\/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&units=metric&appid=b50110aef08e2abcca1b47a1932b9e13';
+        var request = new XMLHttpRequest();
+        request.open('GET', userGPSURL, true);
+        request.onload = function() {
+          if(request.status >= 200 && request.status < 400) {
+            // Success!
+            var json = JSON.parse(request.responseText);
+            var bgColorCode = {
+              'night': '#161616',
+              'sun-shower': '#1a6ca7',
+              'cloudy': '#2b99d8',
+              'thunder-storm': '#212c36',
+              'flurries': '#1d7ec2',
+              'sunny': '#f2c431',
+              'rainy': '#1a6ca7'
+            };
+            document.getElementsByClassName(checkWeather(json))[0].style.display = 'inline-block';
+            var date = new Date();
+            // if(json.main.temp_min !== json.main.temp_max) document.getElementById('temp').children[0].textContent = json.main.temp_min;
+            document.getElementById('temp').children[1].textContent = json.main.temp;
+            document.getElementById('weatherDescription').textContent = json.weather[0].description;
+            document.getElementById('today').textContent = date.today();
+            document.getElementsByTagName('body')[0].style.color = bgColorCode[date.getHours() > 18 ? 'night' : checkWeather(json)];
+          }else {
+            // We reached our target server, but it returned an error
+
+          }
+        };
+        request.onerror = function() {
+          // There was a connection error of some sort
+        };
+        request.send();
       });
     }else alert("Please reload the page and allow us to know your location!");
   })();
