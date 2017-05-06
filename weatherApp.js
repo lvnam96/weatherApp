@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
         var userGPSURL = 'https:\/\/crossorigin.me\/http:\/\/api.openweathermap.org\/data\/2.5\/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&units=metric&appid=b50110aef08e2abcca1b47a1932b9e13';
-        $.getJSON("http://www.garyle.me/testAPI.json", function(json) {
+        $.getJSON("http://www.garyle.me/weatherApp/testAPI.json", function(json) {
           var bgColorCode = {
             'night': '#161616',
             'sun-shower': '#1a6ca7',
