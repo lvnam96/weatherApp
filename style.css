@@ -1,9 +1,7 @@
-html { box-sizing: border-box; }
-html *,
-html *:before,
-html *:after { box-sizing: inherit; }
+html{box-sizing: border-box;}
+html *, html *:before, html *:after{box-sizing: inherit;}
 
-body {
+body{
   max-width: 55em;
   padding: 2em;
   margin: 0 auto;
@@ -12,18 +10,23 @@ body {
   color: #161616;
   background-color: currentColor;
 }
-h1 {
+.container-fluid{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+}
+h1{
   margin-bottom: 1.375em;
-  color: #FFF;
   font-weight: 100;
   font-size: 2em;
   text-transform: uppercase;
   letter-spacing: 0.2em;
+  text-align: center;
 }
-p, a{
+p, a, h1{
   color: #FFF;
 }
-p { margin: 1rem 0; }
+p{margin: 1rem 0;}
 /*#temp span:nth-child(1){
   font-size: 40px;
   color: darkblue;
@@ -34,6 +37,7 @@ p { margin: 1rem 0; }
 }*/
 #temp{
   font-size: 70px;
+  cursor: pointer;
 }
 #temp span:nth-child(3){
   font-size: 40px;

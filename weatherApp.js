@@ -64,70 +64,113 @@ document.addEventListener('DOMContentLoaded', function() {
   (function gettingJSON() {//geryle.me is a non-SSL certificated domain, so it can't get geolocation
                            //let's use a fake JSON
                            //the gettingJSON() function commented bellow is the right function, it's used for SSL certificated domain
-    var request = new XMLHttpRequest();
-    request.open('GET', 'http://www.garyle.me/weatherApp/testAPI.json', true);
-    request.onload = function() {
-      if(request.status >= 200 && request.status < 400) {// Success!
-        var json = JSON.parse(request.responseText);
-        var bgColorCode = {
-          'night': '#161616',
-          'sun-shower': '#1a6ca7',
-          'cloudy': '#2b99d8',
-          'thunder-storm': '#212c36',
-          'flurries': '#1d7ec2',
-          'sunny': '#f2c431',
-          'rainy': '#1a6ca7'
-        };
-        document.getElementsByClassName(checkWeather(json))[0].style.display = 'inline-block';
-        var date = new Date();
-        // if(json.main.temp_min !== json.main.temp_max) document.getElementById('temp').children[0].textContent = json.main.temp_min;
-        document.getElementById('temp').children[1].textContent = Math.round(json.main.temp);
-        document.getElementById('weatherDescription').textContent = json.weather[0].description;
-        document.getElementById('today').textContent = date.today();
-        document.getElementsByTagName('body')[0].style.color = bgColorCode[date.getHours() > 18 ? 'night' : checkWeather(json)];
-      }else {// We reached our target server, but it returned an error
-      }
-    };
-    request.onerror = function() {
-      // There was a connection error of some sort
-    };
-    request.send();
-
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(function(position) {
-    //     var userGPSURL = 'https:\/\/crossorigin.me\/http:\/\/api.openweathermap.org\/data\/2.5\/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&units=metric&appid=b50110aef08e2abcca1b47a1932b9e13';
-    //     var request = new XMLHttpRequest();
-    //     request.open('GET', userGPSURL, true);
-    //     request.onload = function() {
-    //       if(request.status >= 200 && request.status < 400) {
-    //         // Success!
-    //         var json = JSON.parse(request.responseText);
-    //         var bgColorCode = {
-    //           'night': '#161616',
-    //           'sun-shower': '#1a6ca7',
-    //           'cloudy': '#2b99d8',
-    //           'thunder-storm': '#212c36',
-    //           'flurries': '#1d7ec2',
-    //           'sunny': '#f2c431',
-    //           'rainy': '#1a6ca7'
-    //         };
-    //         document.getElementsByClassName(checkWeather(json))[0].style.display = 'inline-block';
-    //         var date = new Date();
-    //         // if(json.main.temp_min !== json.main.temp_max) document.getElementById('temp').children[0].textContent = json.main.temp_min;
-    //         document.getElementById('temp').children[1].textContent = Math.round(json.main.temp);
-    //         document.getElementById('weatherDescription').textContent = json.weather[0].description;
-    //         document.getElementById('today').textContent = date.today();
-    //         document.getElementsByTagName('body')[0].style.color = bgColorCode[date.getHours() > 18 ? 'night' : checkWeather(json)];
-    //       }else {
-    //         // We reached our target server, but it returned an error
-
+    // var request = new XMLHttpRequest();
+    // request.open('GET', 'https:\/\/api.darksky.net\/forecast\/1a24c4a6616960dc8374a4842b6606b8\/' + position.coords.latitude + ',' + position.coords.longitude + '?units=si', true);
+    // request.onload = function() {
+    //   if(request.status >= 200 && request.status < 400) {// Success!
+    //     var json = JSON.parse(request.responseText);
+    //     var bgColorCode = {
+    //       'night': '#161616',
+    //       'sun-shower': '#1a6ca7',
+    //       'cloudy': '#2b99d8',
+    //       'thunder-storm': '#212c36',
+    //       'flurries': '#1d7ec2',
+    //       'sunny': '#f2c431',
+    //       'rainy': '#1a6ca7'
+    //     };
+    //     var tempInUnits = {
+    //       'Celsius' : {
+    //         changeUnit : function() {
+    //           tempElement.children[1].textContent = Math.round(json.main.temp * 1.8 + 32);
+    //         }
+    //         // tempCurrent: json.main.temp,tempMax: json.main.temp_max,tempMin: json.main.temp_min
+    //       },
+    //       'Fahrenheit' : {
+    //         changeUnit : function() {
+    //           tempElement.children[1].textContent = Math.round(json.main.temp);
+    //         }
+    //         // tempCurrent: json.main.temp * 1.8 + 32,tempMax: json.main.temp_max * 1.8 + 32,tempMin: json.main.temp_min * 1.8 + 32
     //       }
+
     //     };
-    //     request.onerror = function() {
-    //       // There was a connection error of some sort
-    //     };
-    //     request.send();
-    //   });
-    // }else alert("Please reload the page and allow us to know your location!");
+    //     var tempElement = document.getElementById('temp');
+    //     var date = new Date();
+    //     document.getElementsByClassName(checkWeather(json))[0].style.display = 'inline-block';
+    //     // if(json.main.temp_min !== json.main.temp_max) document.getElementById('temp').children[0].textContent = json.main.temp_min;
+    //     tempInUnits['Fahrenheit'].changeUnit();
+    //     document.getElementById('weatherDescription').textContent = json.weather[0].description;
+    //     document.getElementById('today').textContent = date.today();
+    //     document.getElementsByTagName('body')[0].style.color = bgColorCode[date.getHours() > 18 ? 'night' : checkWeather(json)];
+    //     tempElement.addEventListener('click', function() {
+    //       tempInUnits[tempElement.className].changeUnit();
+    //       tempElement.className = (tempElement.className === 'Celsius') ? 'Fahrenheit' : 'Celsius';
+    //       tempElement.children[2].children[0].textContent = (tempElement.className === 'Celsius') ? 'C' : 'F';
+    //     });
+    //   }else {// We reached our target server, but it returned an error
+    //   }
+    // };
+    // request.onerror = function() {
+    //   // There was a connection error of some sort
+    // };
+    // request.send();
+
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var userGPSURL = 'https:\/\/cors-everywhere.herokuapp.com\/http:\/\/api.openweathermap.org\/data\/2.5\/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&units=metric&appid=b50110aef08e2abcca1b47a1932b9e13';
+        var request = new XMLHttpRequest();
+        request.open('GET', userGPSURL, true);
+        request.onload = function() {
+          if(request.status >= 200 && request.status < 400) {
+            // Success!
+            var json = JSON.parse(request.responseText);
+            var bgColorCode = {
+              'night': '#161616',
+              'sun-shower': '#1a6ca7',
+              'cloudy': '#2b99d8',
+              'thunder-storm': '#212c36',
+              'flurries': '#1d7ec2',
+              'sunny': '#f2c431',
+              'rainy': '#1a6ca7'
+            };
+            var tempInUnits = {
+              'Celsius' : {
+                changeUnit : function() {
+                  tempElement.children[1].textContent = Math.round(json.main.temp * 1.8 + 32);
+                }
+                // tempCurrent: json.main.temp,tempMax: json.main.temp_max,tempMin: json.main.temp_min
+              },
+              'Fahrenheit' : {
+                changeUnit : function() {
+                  tempElement.children[1].textContent = Math.round(json.main.temp);
+                }
+                // tempCurrent: json.main.temp * 1.8 + 32,tempMax: json.main.temp_max * 1.8 + 32,tempMin: json.main.temp_min * 1.8 + 32
+              }
+
+            };
+            var tempElement = document.getElementById('temp');
+            var date = new Date();
+            document.getElementsByClassName(checkWeather(json))[0].style.display = 'inline-block';
+            // if(json.main.temp_min !== json.main.temp_max) document.getElementById('temp').children[0].textContent = json.main.temp_min;
+            tempInUnits['Fahrenheit'].changeUnit();
+            document.getElementById('weatherDescription').textContent = json.weather[0].description;
+            document.getElementById('today').textContent = date.today();
+            document.getElementsByTagName('body')[0].style.color = bgColorCode[date.getHours() > 18 ? 'night' : checkWeather(json)];
+            tempElement.addEventListener('click', function() {
+              tempInUnits[tempElement.className].changeUnit();
+              tempElement.className = (tempElement.className === 'Celsius') ? 'Fahrenheit' : 'Celsius';
+              tempElement.children[2].children[0].textContent = (tempElement.className === 'Celsius') ? 'C' : 'F';
+            });
+          }else {
+            alert('Sorry, the API\'s server is not responding!');
+          }
+        };
+        request.onerror = function() {
+          // There was a connection error of some sort
+        };
+        request.send();
+      });
+    }else {
+      alert("Please reload the page and allow us to know your location!");
+    }
   })();
 });
